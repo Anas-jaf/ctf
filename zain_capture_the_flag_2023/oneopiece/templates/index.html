@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Opcodes Execution</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 gap-4">
+            <div class="col-span-1">
+                <h2 class="text-2xl font-bold mb-4">Opcodes Execution</h2>
+                <form id="opcode-form" class="space-y-4">
+                    <div>
+                        <label for="opcodes" class="block text-sm font-medium text-gray-700">Enter Opcodes:</label>
+                        <input type="text" id="opcodes" name="opcodes" placeholder="Enter opcodes separated by comma" required class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    </div>
+                    <div>
+                        <input class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit" value="Execute">
+                    </div>
+                </form>
+                <div id="result" class="bg-white overflow-hidden shadow rounded-lg">
+                    <div class="px-4 py-5 sm:p-6">
+                        <!-- Content goes here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+$(document).ready(function() {
+    $('#opcode-form').on('submit', function(e) {
+        e.preventDefault();
+        var opcodes = $('#opcodes').val();
+        $('#result .sm\\:p-6').html('Loading...');
+        $.ajax({
+            url: '/execute',
+            method: 'POST',
+            data: { opcodes: opcodes },
+            success: function(response) {
+                $('#result .sm\\:p-6').html('<pre>' + response + '</pre>');
+            },
+            error: function(error) {
+                $('#result .sm\\:p-6').html('An error occurred. Please try again.');
+                console.log(error);
+            }
+        });
+    });
+});
+
+    </script>
+</body>
+</html>
